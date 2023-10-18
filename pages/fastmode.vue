@@ -22,11 +22,9 @@ definePageMeta({
   middleware: defineNuxtRouteMiddleware((to, from) => {
     const runtimeConfig = useRuntimeConfig()
     const { baseURL } = runtimeConfig.public
-    console.log('deploy test log')
+    
     if (from.href != baseURL) {
-      console.log(from.href)
-      console.log(baseURL)
-      // return navigateTo('/')
+      return navigateTo('/')
     }
   })
 })

@@ -35,7 +35,7 @@ definePageMeta({
     const runtimeConfig = useRuntimeConfig()
     const { baseURL } = runtimeConfig.public
 
-    if (from.path !== baseURL) {
+    if (from.href !== baseURL) {
       return navigateTo('/')
     }
   })

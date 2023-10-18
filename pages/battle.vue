@@ -71,7 +71,7 @@ definePageMeta({
     const runtimeConfig = useRuntimeConfig()
     const { baseURL } = runtimeConfig.public
 
-    if (from.path !== `${baseURL}battlemode`) {
+    if (from.href !== `${baseURL}battlemode`) {
       return navigateTo('/')
     }
   })
