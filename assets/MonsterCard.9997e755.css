@@ -1,0 +1,1 @@
+@keyframes throwZ-c9d8db43{0%{transform:translateZ(480px)}to{transform:translateZ(0)}}@keyframes throwY-c9d8db43{0%{top:0}to{top:-5px}}.perspective[data-v-c9d8db43]{-webkit-perspective-origin-x:45%;-webkit-perspective-origin-y:50%;perspective:500px;perspective-origin:45% 50%}.ball[data-v-c9d8db43]{animation:throwZ-c9d8db43 1s ease-out,throwY-c9d8db43 1s cubic-bezier(0,20,1,20)}
