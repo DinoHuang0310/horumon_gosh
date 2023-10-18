@@ -23,9 +23,10 @@ definePageMeta({
     const runtimeConfig = useRuntimeConfig()
     const { baseURL } = runtimeConfig.public
     console.log('deploy test log')
-    if (from.href !== baseURL) {
-      console.log(from, baseURL)
-      return navigateTo('/')
+    if (from.href != baseURL) {
+      console.log(from.href)
+      console.log(baseURL)
+      // return navigateTo('/')
     }
   })
 })
