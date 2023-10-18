@@ -17,6 +17,7 @@ export default defineNuxtConfig({
   app: {
     baseURL: publicPath,
     cdnURL: publicPath,
+    buildAssetsDir: 'assets',
     head: {
       title: 'HORUMON GOSH',
       meta: [
