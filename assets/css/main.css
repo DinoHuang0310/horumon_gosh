@@ -1,0 +1,121 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* color schema */
+html, body {
+  background-color: white;
+}
+@media (prefers-color-scheme: dark) {
+  html, body {
+    background-color: white;
+  }
+}
+
+:root {
+  --color-primary: #41b883;
+  --color-secondary: #34495e;
+}
+
+html {
+  font-family: 'Noto Sans TC', sans-serif, 'Microsoft JhengHei', arial;
+  letter-spacing: 0.1rem;
+}
+
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
+
+/* animate */
+@-webkit-keyframes rubberBand2 {
+  from {
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
+  }
+
+  10% {
+    -webkit-transform: scale3d(1.15, 0.75, 1);
+    transform: scale3d(1.15, 0.75, 1);
+  }
+
+  20% {
+    -webkit-transform: scale3d(0.75, 1.15, 1);
+    transform: scale3d(0.75, 1.15, 1);
+  }
+
+  30% {
+    -webkit-transform: scale3d(1, 0.85, 1);
+    transform: scale3d(1, 0.85, 1);
+  }
+
+  45% {
+    -webkit-transform: scale3d(0.95, 1.05, 1);
+    transform: scale3d(0.95, 1.05, 1);
+  }
+
+  55% {
+    -webkit-transform: scale3d(1.05, 0.95, 1);
+    transform: scale3d(1.05, 0.95, 1);
+  }
+
+  60% {
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
+  }
+
+  to {
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
+  }
+}
+@keyframes rubberBand2 {
+  from {
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
+  }
+
+  10% {
+    -webkit-transform: scale3d(1.15, 0.75, 1);
+    transform: scale3d(1.15, 0.75, 1);
+  }
+
+  20% {
+    -webkit-transform: scale3d(0.75, 1.15, 1);
+    transform: scale3d(0.75, 1.15, 1);
+  }
+
+  30% {
+    -webkit-transform: scale3d(1, 0.85, 1);
+    transform: scale3d(1, 0.85, 1);
+  }
+
+  45% {
+    -webkit-transform: scale3d(0.95, 1.05, 1);
+    transform: scale3d(0.95, 1.05, 1);
+  }
+
+  55% {
+    -webkit-transform: scale3d(1.05, 0.95, 1);
+    transform: scale3d(1.05, 0.95, 1);
+  }
+
+  60% {
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
+  }
+
+  to {
+    -webkit-transform: scale3d(1, 1, 1);
+    transform: scale3d(1, 1, 1);
+  }
+}
+.animate__rubberBand2 {
+  -webkit-animation-name: rubberBand2;
+  animation-name: rubberBand2;
+}
