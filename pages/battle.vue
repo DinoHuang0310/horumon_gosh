@@ -62,7 +62,8 @@ import useCardPlate from '../composables/useCardPlate';
 import {
   battleEnemyProbability,
   battleDropProbability,
-  nextGame
+  nextGame,
+  ballProbability
 } from '../composables/probabilitySettings';
 
 // 導航守衛
@@ -77,6 +78,7 @@ definePageMeta({
   })
 })
 
+const { masterBall, highBall, superBall } = ballProbability
 const { lockCard, removeCard } = useCardPlate();
 
 const showAlert = ref('')
@@ -107,11 +109,11 @@ const useBall = reactive({
   addition: 0, // 機率加權
   animated: false,
   setBallColor: computed(() => {
-    if (useBall.addition == 1) {
+    if (useBall.addition == masterBall.bonus) {
       return 'purple'
-    } else if (useBall.addition == 0.1) {
+    } else if (useBall.addition == highBall.bonus) {
       return 'yellow'
-    } else if (useBall.addition == 0.05) {
+    } else if (useBall.addition == superBall.bonus) {
       return 'blue'
     }
     return '#dc2626'
