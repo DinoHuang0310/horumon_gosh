@@ -5,7 +5,7 @@ const cardsBag = [
   { cardLevel: 2, cardName: '地幔岩', cardImage: '' },
   { cardLevel: 3, cardName: '烈焰猴', cardImage: '' },
   { cardLevel: 1, cardName: '小火焰猴', cardImage: '' },
-  { cardLevel: 5, cardName: '固拉多', cardImage: 'horumon01.png' },
+  { cardLevel: 5, cardName: '固拉多', cardImage: 'horumon02.png' },
   { cardLevel: 2, cardName: '沼王', cardImage: 'horumon03.png' },
   { cardLevel: 2, cardName: '心蝙蝠', cardImage: '' },
   { cardLevel: 2, cardName: '心蝙蝠', cardImage: '' },
@@ -46,7 +46,7 @@ const cardsBag = [
   { cardLevel: 2, cardName: '貓頭夜鷹', cardImage: '' },
   { cardLevel: 4, cardName: '烈咬陸鯊', cardImage: '' },
   { cardLevel: 2, cardName: '樹林龜', cardImage: '' },
-  { cardLevel: 5, cardName: '迷擬Q', cardImage: 'horumon02.png' },
+  { cardLevel: 5, cardName: '迷擬Q', cardImage: 'horumon01.png' },
   { cardLevel: 1, cardName: '小小象', cardImage: '' },
   { cardLevel: 2, cardName: '奇魯莉安', cardImage: '' },
 ]
