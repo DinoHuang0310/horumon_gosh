@@ -29,7 +29,7 @@ export default () => {
   }
 
   const appendCardPool = () => {
-    cardPool.value.push(...cardsBag)
+    cardPool.value.unshift(...cardsBag)
   }
 
   const resetCardPool = () => {
