@@ -78,7 +78,6 @@ definePageMeta({
   })
 })
 
-const { masterBall, highBall, superBall } = ballProbability
 const { lockCard, removeCard } = useCardPlate();
 
 const showAlert = ref('')
@@ -109,11 +108,11 @@ const useBall = reactive({
   addition: 0, // 機率加權
   animated: false,
   setBallColor: computed(() => {
-    if (useBall.addition == masterBall.bonus) {
+    if (useBall.addition === ballProbability.get('masterBall').bonus) {
       return 'purple'
-    } else if (useBall.addition == highBall.bonus) {
+    } else if (useBall.addition === ballProbability.get('highBall').bonus) {
       return 'yellow'
-    } else if (useBall.addition == superBall.bonus) {
+    } else if (useBall.addition === ballProbability.get('superBall').bonus) {
       return 'blue'
     }
     return '#dc2626'

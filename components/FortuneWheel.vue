@@ -1,8 +1,10 @@
 <template>
   <div class="relative pb-[100%]">
-    <div
-      class="absolute left-0 top-0 w-full h-full rounded-full bg-gradient-to-r from-purple-500 to-pink-500"
+    <img
+      class="block absolute left-0 top-0 w-full"
       :style="{'transform': `rotate(${rotate}deg)`}"
+      src="../assets/images/fortune_wheel.png"
+      alt=""
       @click="runAnimation = false"
     />
   </div>
@@ -18,19 +20,24 @@ const rotate = ref(0)
 
 watch(runAnimation, (bool) => {
   if (!bool) {
-    const { masterBall, highBall, superBall } = ballProbability
-
     const random = Math.random()
     let bonus = 0;
-    if (random < masterBall.appear) {
-      bonus = masterBall.bonus
-    } else if (random < highBall.appear) {
-      bonus = highBall.bonus
-    } else if (random < superBall.appear) {
-      bonus = superBall.bonus
+    let degree = 9;
+
+    for (const [key, value] of ballProbability) {
+      if (random < value.appear) {
+        console.log(`${random}`, `got ${key}`)
+        bonus = value.bonus;
+        degree = value.degree;
+        break; // 找到合適的球, 即停止遍歷
+      }
     }
 
     emit('animationDone', bonus)
+
+    nextTick(() => {
+      rotate.value = degree
+    })
     
   } else {
     window.requestAnimationFrame(animation);
@@ -39,7 +46,7 @@ watch(runAnimation, (bool) => {
 
 const animation = () => {
   if (runAnimation.value) {
-    rotate.value += 30
+    rotate.value = rotate.value >= 360 ? 0 : rotate.value + 30;
     window.requestAnimationFrame(animation);
   }
 }

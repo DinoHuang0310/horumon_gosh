@@ -19,12 +19,13 @@ const grassDropProbability = {
   '4': 0.1,
 }
 
-// 寶貝球機率 appear: 出現率, bonus: 機率加成
-const ballProbability = {
-  'masterBall': { appear: 0.01, bonus: 1 }, // 大師球
-  'highBall': { appear: 0.1, bonus: 0.05 }, // 高級球
-  'superBall': { appear: 0.3, bonus: 0.02 }, // 超級球
-}
+// 計算時必須確保順序, 使用map
+// 寶貝球機率 appear: 出現率, bonus: 捕獲機率加成
+const ballProbability = new Map([
+  ['masterBall', { appear: 0.01, bonus: 1, degree: 260 }], // 大師球
+  ['highBall', { appear: 0.1, bonus: 0.05, degree: 240 }], // 高級球
+  ['superBall', { appear: 0.3, bonus: 0.02, degree: 218 }], // 超級球
+])
 
 // 連續對戰觸發率
 const nextGame = 0.6
