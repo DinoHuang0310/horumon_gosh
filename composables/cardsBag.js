@@ -34,7 +34,7 @@ const cardsBag = [
   { cardLevel: 4, cardName: '怪力', cardImage: '' },
   { cardLevel: 1, cardName: '腕力', cardImage: '' },
   { cardLevel: 1, cardName: '波加曼', cardImage: '' },
-  { cardLevel: 3, cardName: '土台龜', cardImage: '' },
+  { cardLevel: 3, cardName: '土台龜', cardImage: 'horumon04.png' },
   { cardLevel: 3, cardName: '怪力', cardImage: '' },
   { cardLevel: 2, cardName: '毒薔薇', cardImage: '' },
   { cardLevel: 3, cardName: '飛天螳螂', cardImage: '' },
