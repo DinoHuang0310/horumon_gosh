@@ -7,24 +7,32 @@
         class="w-1/5 mx-4 animate__animated animate__flipInY"
         :class="[list.hide && 'invisible']"
       >
-        <MonsterCard class="relative" :card="list">
+        <div class="relative">
+          <MonsterCard
+            class="animate__animated"
+            :animation="setCatchAnimation(capturableId.some(i => i === list.cardId))"
+            :card="list"
+            @animationDone="catchAnimationDoneCount++"
+          >
+            <button
+              v-if="capturableId.some(i => i === list.cardId) && catchAnimationDoneCount === 2"
+              class="px-4 py-2 bg-slate-400"
+              @click="deliver(list)"
+            >取得</button>
+          </MonsterCard>
           <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
             <BallThrowing
-              v-if="useBall.animated"
+              v-if="useBall.animationStart"
               :color="useBall.setBallColor"
+              @animationDone="useBall.animationDone = true"
             />
           </div>
-          <button
-            v-if="capturableId.some(i => i === list.cardId)"
-            class="px-4 py-2 bg-slate-400"
-            @click="deliver(list)"
-          >取得</button>
-        </MonsterCard>
+        </div>
       </div>
 
       <button
-        v-if="useBall.animated"
-        class="absolute bottom-4 left-1/2 -translate-x-1/2 px-4 py-2 bg-slate-400"
+        v-if="catchAnimationDoneCount === 2"
+        class="absolute bottom-2 left-1/2 -translate-x-1/2 px-4 py-2 bg-slate-400"
         @click="captureDone"
       >不取得</button>
     </div>
@@ -42,7 +50,7 @@
       <Keyboard
         v-if="battleProgressBar !== 100"
         class="absolute -top-8 left-1/2 -translate-x-1/2 -translate-y-full"
-        @click="battleProgressBar < 100 ? battleProgressBar += 10 : battleProgressBar = 100"
+        @click="battleProgressBar < 100 ? battleProgressBar += 50 : battleProgressBar = 100"
       />
       <div class="bg-red-600 h-full duration-200" :style="{'width': `${battleProgressBar}%`}" />
     </div>
@@ -106,7 +114,8 @@ const battleRound = ref(0)
 
 const useBall = reactive({
   addition: 0, // 機率加權
-  animated: false,
+  animationStart: false,
+  animationDone: false,
   setBallColor: computed(() => {
     if (useBall.addition === ballProbability.get('masterBall').bonus) {
       return 'purple'
@@ -153,7 +162,7 @@ const onKeyup = (e) => {
 
 const handleFortuneWheelDone = (percentageBonus) => {
   useBall.addition = percentageBonus
-  useBall.animated = true
+  useBall.animationStart = true
 
   enemy.value.forEach(i => {
     const random = Math.random()
@@ -166,11 +175,7 @@ const handleFortuneWheelDone = (percentageBonus) => {
       random
     )
     if (random < (totalPercentage > 1 ? 1 : totalPercentage)) {
-      // 等待動畫完成
-      setTimeout(() => {
-        capturableId.value.push(i.cardId)
-      }, 2000);
-      
+      capturableId.value.push(i.cardId)
     }
   })
 }
@@ -179,8 +184,10 @@ const handleFortuneWheelDone = (percentageBonus) => {
 const captureDone = () => {
   battleDone.value = false
   useBall.addition = 0
-  useBall.animated = false
+  useBall.animationStart = false
+  useBall.animationDone = false
   deliverCount.value = 0
+  catchAnimationDoneCount.value = 0
   
   // 清空
   capturableId.value.length = 0
@@ -202,6 +209,17 @@ const deliver = (target) => {
 
   removeCard(target.cardId)
 }
+
+const catchAnimationDoneCount = ref(0)
+
+const setCatchAnimation = computed(() => {
+  return (isSuccess) => {
+    if (useBall.animationDone) {
+      return isSuccess ? 'capture-success' : 'capture-failed'
+    }
+    return ''
+  }
+})
 
 onMounted(setEnemy)
 </script>

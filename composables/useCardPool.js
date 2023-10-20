@@ -19,7 +19,7 @@ export default () => {
           cardId: Math.floor(Date.now() * Math.random())
         })
       } else {
-        alert('卡池沒卡了')
+        console.warn('卡池沒卡了')
         reject({
           ...item,
           cardId: Math.floor(Date.now() * Math.random())

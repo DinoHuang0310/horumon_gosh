@@ -1,5 +1,5 @@
 <template>
-  <div class="py-24 text-center">
+  <div class="py-10 text-center">
     <div v-if="card.cardLevel === 5">
       <span v-for="i in card.cardLevel" :key="i.index" :style="{color: cardColor[i - 1]}">★</span>
     </div>
@@ -7,9 +7,14 @@
       <span v-for="i in card.cardLevel" :key="i.index">★</span>
     </div>
 
-    <div v-if="card.cardImage">
-      <img class="mx-auto" :src="setImage" :alt="card.cardName">
-    </div>
+    <img
+      class="mx-auto animate__animated"
+      :class="animationClass"
+      :src="setImage"
+      :alt="card.cardName"
+      ref="monsterRef"
+    />
+
     <div>{{ card.cardName }}</div>
     <!-- <div>{{ card.cardId }}</div> -->
     <br>
@@ -28,8 +33,58 @@ const props = defineProps({
     type: Object,
     required: true,
   },
+  animation: {
+    type: String,
+    required: false,
+  }
+})
+const emit = defineEmits(['animationDone'])
+
+const monsterRef = ref(null)
+
+const animationClass = ref([])
+
+const animationCallback = () => {
+  // 成功調用一次emit即移除監聽
+  emit('animationDone')
+  removeCallbackWatcher()
+}
+
+const removeCallbackWatcher = () => {
+  monsterRef.value.removeEventListener('webkitAnimationEnd', animationCallback);
+  monsterRef.value.removeEventListener('animationend', animationCallback);
+  monsterRef.value.removeEventListener('oanimationend', animationCallback);
+}
+
+const addCallbackWatcher = () => {
+  monsterRef.value.addEventListener('webkitAnimationEnd', animationCallback);
+  monsterRef.value.addEventListener('animationend', animationCallback);
+  monsterRef.value.addEventListener('oanimationend', animationCallback);
+}
+
+watch(() => props.animation, (type) => {
+  if (type) {
+    animationClass.value.push('animate__bounceOut')
+    if (type === 'capture-failed') {
+      setTimeout(() => {
+        animationClass.value.splice(0, 1, 'animate__bounceIn')
+        nextTick(addCallbackWatcher)
+      }, (Math.floor(Math.random() * 3000) + 3000));
+    } else {
+      setTimeout(() => {
+        emit('animationDone')
+      }, 5000);
+    }
+  } else {
+    animationClass.value.splice(0, animationClass.value.length)
+  }
 })
 
-const setImage = computed(() => (`${publicPath}horumon/${props.card.cardImage}`))
+const setImage = computed(() => {
+  return props.card.cardImage ?
+    `${publicPath}horumon/${props.card.cardImage}` :
+    new URL(`../assets/images/default_horumon.png`, import.meta.url).href
+})
 
+onBeforeUnmount(removeCallbackWatcher)
 </script>
