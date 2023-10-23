@@ -4,6 +4,7 @@
       <NuxtLink class="px-4 py-2 bg-slate-400 mr-2" to="/battlemode">Start</NuxtLink>
       <NuxtLink class="px-4 py-2 bg-slate-400 mr-2" to="/fastmode">直接捕獲</NuxtLink>
     </div>
+    <div v-else class="flex p-4">請補卡</div>
   </div>
 </template>
 

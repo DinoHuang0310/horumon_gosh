@@ -22,19 +22,10 @@ const { plus } = useCostCalculate();
 export default () => {
 
   // 檢查黑盤並補滿16張
-  const init = async () => {
+  const init = () => {
     const minus = max - cardPlate.value.length;
     for (let i = 0; i < minus; i++) {
-      try {
-        const newCard = await getCard();
-
-        cardPlate.value.push(newCard)
-        
-      } catch (lastCard) {
-        // 最後一張
-        cardPlate.value.push(lastCard)
-        break;
-      }
+      cardPlate.value.push(getCard())
     }
   }
 
@@ -89,11 +80,12 @@ export default () => {
   }
 
   // 從黑盤中移除卡片, 並從卡池中補卡
-  const removeCard = (id, isFree = false) => {
+  const removeCard = (id, isFree = false, promptlyInit = true) => {
     const targetIndex = cardPlate.value.findIndex(i => i.cardId === id)
     cardPlate.value.splice(targetIndex, 1)
-    init()
+    
     if (!isFree) plus()
+    if (promptlyInit) init()
   }
 
   const resetCardPlate = () => {

@@ -44,7 +44,7 @@ const animationDone = computed(() => {
 const deliver = () => {
   takedCard.value = targetCard.value.shift()
 
-  removeCard(takedCard.value.cardId)
+  removeCard(takedCard.value.cardId, false, false)
   deliverCount.value++
 }
 

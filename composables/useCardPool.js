@@ -11,21 +11,11 @@ export default () => {
 
   const getCard = () => {
     // 檢查剩餘卡片數量, 取出卡片並賦予id返回
-    return new Promise((resolve, reject) => {
-      const item = cardPool.value.pop();
-      if (cardPool.value.length > 9) {
-        resolve({
-          ...item,
-          cardId: Math.floor(Date.now() * Math.random())
-        })
-      } else {
-        console.warn('卡池沒卡了')
-        reject({
-          ...item,
-          cardId: Math.floor(Date.now() * Math.random())
-        })
-      }
-    });
+    const item = cardPool.value.pop();
+    return {
+      ...item,
+      cardId: Math.floor(Date.now() * Math.random())
+    }
   }
 
   const appendCardPool = () => {
