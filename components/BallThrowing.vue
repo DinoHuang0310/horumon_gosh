@@ -1,5 +1,5 @@
 <template>
-  <div class="relative w-10 h-10 left-1/2 top-1/2 -translate-x-1/2">
+  <div class="relative w-10 h-10 left-1/2 top-1/2 -translate-x-1/2 pointer-events-none">
     <div class="absolute w-screen h-10 left-1/2 top-0 -translate-x-1/2 flex justify-center">
       <div class="perspective w-10 h-10 relative">
         <div

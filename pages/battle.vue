@@ -10,15 +10,23 @@
         <div class="relative">
           <MonsterCard
             class="animate__animated"
-            :animation="setCatchAnimation(capturableId.some(i => i === list.cardId))"
+            :animation="setCatchAnimation(capturableId.some(i => i.id === list.cardId))"
             :card="list"
             @animationDone="catchAnimationDoneCount++"
           >
             <button
-              v-if="capturableId.some(i => i === list.cardId) && catchAnimationDoneCount === 2"
-              class="px-4 py-2 bg-slate-400"
+              v-if="capturableId.some(i => i.id === list.cardId) && catchAnimationDoneCount === 2"
+              class="relative px-4 py-2 bg-slate-400"
               @click="deliver(list)"
-            >取得</button>
+            >
+              <span>取得</span>
+              <span
+                v-if="hasChangeChance(list.cardId)"
+                class="absolute right-0 -top-2 bg-red-500 text-white text-sm rounded whitespace-nowrap px-2 py-1 translate-x-2/3 rotate-[20deg]"
+              >
+                交換機會
+              </span>
+            </button>
           </MonsterCard>
           <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
             <BallThrowing
@@ -36,6 +44,13 @@
         @click="captureDone"
       >不取得</button>
     </div>
+
+    <ChangeChance
+      v-if="showChangeChance"
+      class="absolute w-full h-full top-0 left-0 z-10"
+      :card="showChangeChance"
+      @takeCard="handleChangeChanceDeliver"
+    />
 
     <div class="h-[40vh] overflow-hidden">
       <div class="w-1/2 mx-auto">
@@ -71,7 +86,8 @@ import {
   battleEnemyProbability,
   battleDropProbability,
   nextGame,
-  ballProbability
+  ballProbability,
+  changeChance,
 } from '../composables/probabilitySettings';
 
 // 導航守衛
@@ -175,7 +191,10 @@ const handleFortuneWheelDone = (percentageBonus) => {
       random
     )
     if (random < (totalPercentage > 1 ? 1 : totalPercentage)) {
-      capturableId.value.push(i.cardId)
+      capturableId.value.push({
+        id: i.cardId,
+        chance: Math.random()
+      })
     }
   })
 }
@@ -201,16 +220,34 @@ const captureDone = () => {
   }
 }
 
-// 出卡
-const deliver = (target) => {
-  // 由此攔截交換機會
-  deliverCount.value++
-  target.hide = true
+const showChangeChance = ref(null)
 
+const handleChangeChanceDeliver = ({ origin, target }) => {
+  showChangeChance.value = null
+  deliverCount.value++
+  origin.hide = true
   removeCard(target.cardId)
 }
 
+// 出卡
+const deliver = (target) => {
+  if (hasChangeChance(target.cardId)) {
+    showChangeChance.value = target
+    return;
+  } else {
+    deliverCount.value++
+    target.hide = true
+
+    removeCard(target.cardId)
+  }
+}
+
 const catchAnimationDoneCount = ref(0)
+
+const hasChangeChance = (cardId) => {
+  const target = capturableId.value.find(i => i.id === cardId)
+  return target ? target.chance < changeChance : false
+}
 
 const setCatchAnimation = computed(() => {
   return (isSuccess) => {

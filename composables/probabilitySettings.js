@@ -30,10 +30,19 @@ const ballProbability = new Map([
 // 連續對戰觸發率
 const nextGame = 0.6
 
+// 交換機會
+const changeChance = 0.05
+const changeChanceDropProbability = {
+  '5': 0.3,
+  '4': 0.5,
+}
+
 export {
   battleEnemyProbability,
   battleDropProbability,
   grassDropProbability,
   ballProbability,
   nextGame,
+  changeChance,
+  changeChanceDropProbability,
 }
