@@ -72,7 +72,7 @@
 
     <Transition>
       <div v-show="showAlert" class="absolute w-full text-center top-1/2 left-0 -translate-y-1/2 bg-red-600">
-        <span class="inline-block text-white text-6xl italic py-8 animate__animated animate__flipInX">
+        <span class="inline-block text-white text-2xl sm:text-6xl italic py-8 animate__animated animate__flipInX">
           {{ showAlert }}
         </span>
       </div>

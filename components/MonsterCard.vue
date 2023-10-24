@@ -1,5 +1,5 @@
 <template>
-  <div class="py-10 text-center">
+  <div class="py-4 sm:py-8 text-center">
     <div v-if="card.cardLevel === 5">
       <span v-for="i in card.cardLevel" :key="i.index" :style="{color: cardColor[i - 1]}">★</span>
     </div>
