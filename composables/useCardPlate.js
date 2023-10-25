@@ -34,49 +34,46 @@ export default () => {
     length = 1,
     probability = {maxChance: grassDropProbability['5'], highChance: grassDropProbability['4']}
   ) => {
-    if (playable.value) {
-      // 卡片分級
-      const maxLevel = cardPlate.value.filter(card => card.cardLevel === 5);
-      const highLevel = cardPlate.value.filter(card => card.cardLevel === 4);
-      const lowLevel = cardPlate.value.filter(card => card.cardLevel <= 3);
+    // 卡片分級
+    const maxLevel = cardPlate.value.filter(card => card.cardLevel === 5);
+    const highLevel = cardPlate.value.filter(card => card.cardLevel === 4);
+    const lowLevel = cardPlate.value.filter(card => card.cardLevel <= 3);
 
-      const targetCards = [];
-      const { maxChance, highChance } = probability
-      console.log(maxChance, highChance)
+    const targetCards = [];
+    const { maxChance, highChance } = probability
+    console.log(maxChance, highChance)
 
-      for(let i = 0; i < length; i++) {
-        let options;
-        const random = Math.random()
-        console.log(random)
-        
-        if (maxLevel.length && random < maxChance) {
-          console.log('take max')
-          options = maxLevel
+    for(let i = 0; i < length; i++) {
+      let options;
+      const random = Math.random()
+      console.log(random)
+      
+      if (maxLevel.length && random < maxChance) {
+        console.log('take max')
+        options = maxLevel
 
-        } else if (highLevel.length && random < highChance) {
-          options = highLevel
+      } else if (highLevel.length && random < highChance) {
+        options = highLevel
 
-        } else if (lowLevel.length) {
-          options = lowLevel
+      } else if (lowLevel.length) {
+        options = lowLevel
 
-        } else if (highLevel.length) {
-          console.log('empty take high')
-          options = highLevel
+      } else if (highLevel.length) {
+        console.log('empty take high')
+        options = highLevel
 
-        } else {
-          console.log('empty take max')
-          options = maxLevel
-
-        }
-
-        const index = Math.floor(Math.random() * options.length)
-        targetCards.push(options.splice(index, 1)[0])
+      } else {
+        console.log('empty take max')
+        options = maxLevel
 
       }
-      // console.log(targetCards)
-      return targetCards
+
+      const index = Math.floor(Math.random() * options.length)
+      targetCards.push(options.splice(index, 1)[0])
+
     }
-    return false
+    // console.log(targetCards)
+    return targetCards
   }
 
   // 從黑盤中移除卡片, 並從卡池中補卡
