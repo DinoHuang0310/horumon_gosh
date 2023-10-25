@@ -5,7 +5,7 @@
         v-for="list in enemy"
         :key="list.cardId"
         class="w-1/5 mx-4 animate__animated animate__flipInY"
-        :class="[list.hide && 'invisible']"
+        :class="[hiddenId.some(i => i === list.cardId) && 'invisible']"
       >
         <div class="relative">
           <MonsterCard
@@ -123,6 +123,7 @@ watch(deliverCount, () => {
     captureDone()
   }
 })
+const hiddenId = ref([])
 
 const battleProgressBar = ref(null)
 const battleDone = ref(false)
@@ -210,6 +211,7 @@ const captureDone = () => {
   
   // 清空
   capturableId.value.length = 0
+  hiddenId.value.length = 0
   
   if (battleRound.value < 2 && Math.random() < nextGame) {
     // 連續戰鬥
@@ -225,7 +227,7 @@ const showChangeChance = ref(null)
 const handleChangeChanceDeliver = ({ origin, target }) => {
   showChangeChance.value = null
   deliverCount.value++
-  origin.hide = true
+  hiddenId.value.push(origin.cardId)
   removeCard(target.cardId)
 }
 
@@ -236,7 +238,7 @@ const deliver = (target) => {
     return;
   } else {
     deliverCount.value++
-    target.hide = true
+    hiddenId.value.push(target.cardId)
 
     removeCard(target.cardId)
   }

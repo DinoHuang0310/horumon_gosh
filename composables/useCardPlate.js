@@ -3,17 +3,9 @@ import useCardPool from './useCardPool';
 import useCostCalculate from './useCostCalculate'
 import { grassDropProbability } from './probabilitySettings'
 
-const cardPlateState = JSON.parse(localStorage.getItem('cardPlate')) || []
-const mapping = () => {
-  return cardPlateState.length ? cardPlateState.map(i => {
-    const { cardId, cardLevel, cardName, cardImage } = i
-    return { cardId, cardLevel, cardName, cardImage }
-  }) : []
-}
-
 // 黑盤, 最多16張
 const max = 16;
-const cardPlate = ref(mapping())
+const cardPlate = ref(JSON.parse(localStorage.getItem('cardPlate')) || [])
 watch(() => cardPlate.value, (newData) => {
   localStorage.setItem('cardPlate', JSON.stringify(newData));
 }, { deep: true })
