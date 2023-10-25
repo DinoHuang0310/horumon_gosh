@@ -27,7 +27,7 @@
       class="absolute top-0 right-0 flex items-center justify-end w-full h-full"
     >
       <SlideToggle v-model="showAnimation">
-        <div class="w-80 h-80 bg-red-400"></div>
+        <img class="w-80" src="../assets/images/change-chance.png" alt="">
       </SlideToggle>
     </div>
   </div>
