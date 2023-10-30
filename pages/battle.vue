@@ -83,11 +83,11 @@
 <script setup>
 import useCardPlate from '../composables/useCardPlate';
 import {
-  battleEnemyProbability,
-  battleDropProbability,
-  nextGame,
-  ballProbability,
-  changeChance,
+  battleEnemyPR,
+  battleDropPR,
+  nextGamePR,
+  ballTypePR,
+  changeChancePR,
 } from '../composables/probabilitySettings';
 
 // 導航守衛
@@ -134,11 +134,11 @@ const useBall = reactive({
   animationStart: false,
   animationDone: false,
   setBallColor: computed(() => {
-    if (useBall.addition === ballProbability.get('masterBall').bonus) {
+    if (useBall.addition === ballTypePR.get('masterBall').bonus) {
       return 'purple'
-    } else if (useBall.addition === ballProbability.get('highBall').bonus) {
+    } else if (useBall.addition === ballTypePR.get('highBall').bonus) {
       return 'yellow'
-    } else if (useBall.addition === ballProbability.get('superBall').bonus) {
+    } else if (useBall.addition === ballTypePR.get('superBall').bonus) {
       return 'blue'
     }
     return '#dc2626'
@@ -157,8 +157,8 @@ watch(battleProgressBar, (val) => {
 
 const setEnemy = () => {
   enemy.value = lockCard(2, {
-    maxChance: battleEnemyProbability['5'],
-    highChance: battleEnemyProbability['4']
+    maxChance: battleEnemyPR['5'],
+    highChance: battleEnemyPR['4']
   })
   battleRound.value ++;
   
@@ -183,7 +183,7 @@ const handleFortuneWheelDone = (percentageBonus) => {
 
   enemy.value.forEach(i => {
     const random = Math.random()
-    const totalPercentage = battleDropProbability[i.cardLevel] + percentageBonus;
+    const totalPercentage = battleDropPR[i.cardLevel] + percentageBonus;
     
     // alert(`${i.cardName}> ${random < (totalPercentage > 1 ? 1 : totalPercentage) ? '捕捉成功' : '捕捉失敗'}`)
     console.log(
@@ -213,7 +213,7 @@ const captureDone = () => {
   capturableId.value.length = 0
   hiddenId.value.length = 0
   
-  if (battleRound.value < 2 && Math.random() < nextGame) {
+  if (battleRound.value < 2 && Math.random() < nextGamePR) {
     // 連續戰鬥
     console.log('連續對戰!')
     setEnemy()
@@ -248,7 +248,7 @@ const catchAnimationDoneCount = ref(0)
 
 const hasChangeChance = (cardId) => {
   const target = capturableId.value.find(i => i.id === cardId)
-  return target ? target.chance < changeChance : false
+  return target ? target.chance < changeChancePR : false
 }
 
 const setCatchAnimation = computed(() => {

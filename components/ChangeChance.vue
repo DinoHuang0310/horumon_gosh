@@ -35,7 +35,7 @@
 
 <script setup>
 import useCardPlate from '../composables/useCardPlate'
-import { changeChanceDropProbability } from '../composables/probabilitySettings'
+import { changeChanceDropPR } from '../composables/probabilitySettings'
 
 const props = defineProps({
   card: {
@@ -62,8 +62,8 @@ const removeForceDelivery = () => {
 onMounted(() => {
   const takeNewCard = () => {
     const newCard = lockCard(1, {
-      maxChance: changeChanceDropProbability['5'],
-      highChance: changeChanceDropProbability['4']
+      maxChance: changeChanceDropPR['5'],
+      highChance: changeChanceDropPR['4']
     })[0]
 
     // 防止換到同一張卡

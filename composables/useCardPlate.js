@@ -1,7 +1,7 @@
 import { ref, watch } from 'vue';
 import useCardPool from './useCardPool';
 import useCostCalculate from './useCostCalculate'
-import { grassDropProbability } from './probabilitySettings'
+import { grassDropPR } from './probabilitySettings'
 
 // 黑盤, 最多16張
 const max = 16;
@@ -32,7 +32,7 @@ export default () => {
   // 鎖定選中的卡片
   const lockCard = (
     length = 1,
-    probability = {maxChance: grassDropProbability['5'], highChance: grassDropProbability['4']}
+    probability = {maxChance: grassDropPR['5'], highChance: grassDropPR['4']}
   ) => {
     // 卡片分級
     const maxLevel = cardPlate.value.filter(card => card.cardLevel === 5);
