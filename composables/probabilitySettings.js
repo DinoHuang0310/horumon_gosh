@@ -7,7 +7,7 @@ const battleEnemyPR = {
 // 對戰捕獲率
 const battleDropPR = {
   '5': 0.03,
-  '4': 0.1,
+  '4': 0.2,
   '3': 0.3,
   '2': 0.6,
   '1': 0.8
