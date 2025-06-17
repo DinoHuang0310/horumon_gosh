@@ -1,7 +1,7 @@
 import { ref, watch } from 'vue';
 import useCardPool from './useCardPool';
 import useCostCalculate from './useCostCalculate'
-import { grassDropPR } from './probabilitySettings'
+import { defaultDropPR } from './probabilitySettings'
 
 // 黑盤, 最多16張
 const max = 16;
@@ -30,50 +30,33 @@ export default () => {
   }
 
   // 鎖定選中的卡片
-  const lockCard = (
-    length = 1,
-    probability = {maxChance: grassDropPR['5'], highChance: grassDropPR['4']}
-  ) => {
-    // 卡片分級
-    const maxLevel = cardPlate.value.filter(card => card.cardLevel === 5);
-    const highLevel = cardPlate.value.filter(card => card.cardLevel === 4);
-    const lowLevel = cardPlate.value.filter(card => card.cardLevel <= 3);
+  const lockCard = (length = 1, weights = defaultDropPR) => {
+    const result = [];
+    const usedIds = new Set();
+    while (result.length < length) {
+      // 計算權重
+      const pool = cardPlate.value.filter(i => !usedIds.has(i.cardId))
+      const totalWeight = pool.reduce((a, b) => a + weights[b.cardLevel], 0);
+      const rand = Math.random() * totalWeight;
 
-    const targetCards = [];
-    const { maxChance, highChance } = probability
-    console.log(maxChance, highChance)
-
-    for(let i = 0; i < length; i++) {
-      let options;
-      const random = Math.random()
-      console.log(random)
-      
-      if (maxLevel.length && random < maxChance) {
-        console.log('take max')
-        options = maxLevel
-
-      } else if (highLevel.length && random < highChance) {
-        options = highLevel
-
-      } else if (lowLevel.length) {
-        options = lowLevel
-
-      } else if (highLevel.length) {
-        console.log('empty take high')
-        options = highLevel
-
-      } else {
-        console.log('empty take max')
-        options = maxLevel
-
+      let cumulative = 0;
+      for (let i = 0; i < pool.length; i++) {
+        cumulative += weights[pool[i].cardLevel];
+        const consoleStr = `${rand <= cumulative ? '%c' : ''}${pool[i].cardName}(${pool[i].cardLevel})(${pool[i].cardId}) 配率: ${(weights[pool[i].cardLevel] / totalWeight * 100).toFixed(2)}%`
+        console.log(
+          consoleStr,
+          rand <= cumulative ? 'color: orange;' : ''
+        )
+        if (rand <= cumulative) {
+          result.push(pool[i]);
+          usedIds.add(pool[i].cardId);
+          break;
+        }
       }
-
-      const index = Math.floor(Math.random() * options.length)
-      targetCards.push(options.splice(index, 1)[0])
-
+      console.log('--------------------------')
     }
-    // console.log(targetCards)
-    return targetCards
+    console.log(result)
+    return result;
   }
 
   // 從黑盤中移除卡片, 並從卡池中補卡

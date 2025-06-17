@@ -31,7 +31,7 @@
           <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
             <BallThrowing
               v-if="useBall.animationStart"
-              :color="useBall.setBallColor"
+              :color="useBall.ballColor"
               @animationDone="useBall.animationDone = true"
             />
           </div>
@@ -86,7 +86,6 @@ import {
   battleEnemyPR,
   battleDropPR,
   nextGamePR,
-  ballTypePR,
   changeChancePR,
 } from '../composables/probabilitySettings';
 
@@ -133,16 +132,7 @@ const useBall = reactive({
   addition: 0, // 機率加權
   animationStart: false,
   animationDone: false,
-  setBallColor: computed(() => {
-    if (useBall.addition === ballTypePR.get('masterBall').bonus) {
-      return 'purple'
-    } else if (useBall.addition === ballTypePR.get('highBall').bonus) {
-      return 'yellow'
-    } else if (useBall.addition === ballTypePR.get('superBall').bonus) {
-      return 'blue'
-    }
-    return '#dc2626'
-  })
+  ballColor: '',
 })
 
 watch(battleProgressBar, (val) => {
@@ -156,13 +146,10 @@ watch(battleProgressBar, (val) => {
 })
 
 const setEnemy = () => {
-  enemy.value = lockCard(2, {
-    maxChance: battleEnemyPR['5'],
-    highChance: battleEnemyPR['4']
-  })
+  enemy.value = lockCard(2, battleEnemyPR)
   battleRound.value ++;
   
-  showAlert.value = `BATTLE ROUND ${battleRound.value < 2 ? '1' : '2'} !`
+  showAlert.value = `BATTLE ROUND ${battleRound.value} !`
   
   setTimeout(() => {
     battleProgressBar.value = 0
@@ -173,25 +160,24 @@ const setEnemy = () => {
 const onKeyup = (e) => {
   const { code } = e;
   if (code === 'ArrowLeft' || code === 'ArrowRight') {
-    battleProgressBar.value < 100 ? battleProgressBar.value += 10 : battleProgressBar.value = 100
+    battleProgressBar.value = Math.min(battleProgressBar.value + 10, 100)
   }
 }
 
-const handleFortuneWheelDone = (percentageBonus) => {
-  useBall.addition = percentageBonus
+const handleFortuneWheelDone = ({bonus, color}) => {
+  useBall.addition = bonus
+  useBall.ballColor = color
   useBall.animationStart = true
 
   enemy.value.forEach(i => {
     const random = Math.random()
-    const totalPercentage = battleDropPR[i.cardLevel] + percentageBonus;
+    const totalPercentage = Math.min(battleDropPR[i.cardLevel] + bonus, 1)
     
-    // alert(`${i.cardName}> ${random < (totalPercentage > 1 ? 1 : totalPercentage) ? '捕捉成功' : '捕捉失敗'}`)
     console.log(
-      `${i.cardLevel}星目標`,
-      `${totalPercentage > 1 ? 100 : (totalPercentage * 100)}%`,
-      random
+      `${i.cardName}(${i.cardLevel}} ${totalPercentage * 100}%`,
+      `${random} (${random < totalPercentage ? '捕捉成功' : '捕捉失敗'})`
     )
-    if (random < (totalPercentage > 1 ? 1 : totalPercentage)) {
+    if (random < totalPercentage) {
       capturableId.value.push({
         id: i.cardId,
         chance: Math.random()

@@ -66,6 +66,6 @@ const deliver = (id) => {
 
 onMounted(() => {
   plus()
-  targetCard.value = lockCard(3, { maxChance: 0.03, highChance: 0.15 })
+  targetCard.value = lockCard(3)
 })
 </script>

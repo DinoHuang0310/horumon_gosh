@@ -61,10 +61,7 @@ const removeForceDelivery = () => {
 
 onMounted(() => {
   const takeNewCard = () => {
-    const newCard = lockCard(1, {
-      maxChance: changeChanceDropPR['5'],
-      highChance: changeChanceDropPR['4']
-    })[0]
+    const newCard = lockCard(1, changeChanceDropPR)[0]
 
     // 防止換到同一張卡
     if (newCard.cardId === props.card.cardId) {

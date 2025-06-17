@@ -1,7 +1,10 @@
 // 對戰敵人出場率
 const battleEnemyPR = {
-  '5': 0.4,
-  '4': 0.5,
+  '5': 60,
+  '4': 15,
+  '3': 15,
+  '2': 15,
+  '1': 15
 }
 
 // 對戰捕獲率
@@ -14,18 +17,21 @@ const battleDropPR = {
 }
 
 // 草叢出卡率
-const grassDropPR = {
-  '5': 0.03,
-  '4': 0.1,
+const defaultDropPR = {
+  '5': 2,
+  '4': 10,
+  '3': 20,
+  '2': 30,
+  '1': 38
 }
 
-// 計算時必須確保順序, 使用map
-// 寶貝球機率 appear: 出現率, bonus: 捕獲機率加成
-const ballTypePR = new Map([
-  ['masterBall', { appear: 0.01, bonus: 1, degree: 260 }], // 大師球
-  ['highBall', { appear: 0.1, bonus: 0.05, degree: 240 }], // 高級球
-  ['superBall', { appear: 0.3, bonus: 0.02, degree: 218 }], // 超級球
-])
+// 寶貝球機率 weights: 出現權重, bonus: 捕獲機率加成
+const ballTypePR = {
+  'masterBall': { weights: 1, bonus: 1, degree: 260, color: 'purple' }, // 大師球
+  'highBall': { weights: 10, bonus: 0.05, degree: 240, color: 'yellow' }, // 高級球
+  'superBall': { weights: 30, bonus: 0.02, degree: 218, color: 'blue' }, // 超級球
+  'pokeball': { weights: 59, bonus: 0, degree: 9, color: '#dc2626' }, // 精靈球
+}
 
 // 前輩
 const seniorPR = 0.01
@@ -36,14 +42,17 @@ const nextGamePR = 0.6
 // 交換機會
 const changeChancePR = 0.05
 const changeChanceDropPR = {
-  '5': 0.3,
-  '4': 0.5,
+  '5': 20,
+  '4': 20,
+  '3': 20,
+  '2': 20,
+  '1': 20
 }
 
 export {
   battleEnemyPR,
   battleDropPR,
-  grassDropPR,
+  defaultDropPR,
   ballTypePR,
   seniorPR,
   nextGamePR,

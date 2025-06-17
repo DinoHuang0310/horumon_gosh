@@ -46,29 +46,29 @@ const rotate = ref(0)
 
 watch(isRotating, (bool) => {
   if (!bool) {
-    let bonus = 0;
-    let degree = 9;
-
-    if (isSenior.value) {
-      bonus = 1
-    } else {
-      const random = Math.random()
-
-      for (const [key, value] of ballTypePR) {
-        if (random < value.appear) {
-          console.log(`${random}`, `got ${key}`)
-          bonus = value.bonus;
-          degree = value.degree;
-          break; // 找到合適的球, 即停止遍歷
-        }
+    const allBalls = Object.values(ballTypePR)
+    const totalWeight = allBalls.reduce((a, b) => a + b.weights, 0);
+    const rand = isSenior.value ? 0 : Math.random() * totalWeight; // 前輩訓練家, 必定投出大師
+    
+    let cumulative = 0;
+    for (let i = 0; i < allBalls.length; i++) {
+      cumulative += allBalls[i].weights;
+      if (rand <= cumulative) {
+        console.log(
+          `%c投出: ${Object.keys(ballTypePR)[i]} %c配率: ${isSenior.value ? '(前輩)100' : (allBalls[i].weights / totalWeight * 100).toFixed(2)}%`,
+          'color: black;',
+          'color: orange;'
+        )
+        emit('animationDone', {
+          bonus: allBalls[i].bonus,
+          color: allBalls[i].color
+        })
+        nextTick(() => {
+          rotate.value = allBalls[i].degree
+        })
+        break;
       }
     }
-
-    emit('animationDone', bonus)
-
-    nextTick(() => {
-      rotate.value = degree
-    })
     
   } else {
     window.requestAnimationFrame(animation);

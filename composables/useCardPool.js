@@ -14,7 +14,7 @@ export default () => {
     const item = cardPool.value.pop();
     return {
       ...item,
-      cardId: Math.floor(Date.now() * Math.random())
+      cardId: `${String.fromCharCode(Math.floor(Math.random() * 26) + 65)}${Math.floor(Date.now() * Math.random())}`
     }
   }
 
